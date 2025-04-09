@@ -1,33 +1,13 @@
-import random
+import datetime
 
-#Open both the README and Jokes files.
-readme_file = open("README.md","r+",encoding = "utf-8")
-jokes_file = open("Jokes.txt","r",encoding = "utf-8")
+# Get the current time formatted as YYYY-MM-DD HH:MM:SS
+current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-#Read contents of these files and store them in a list.
-readme_lines = readme_file.readlines() 
-jokes = jokes_file.readlines()
+# Prepare the new content for README.md
+new_content = f"Current time: {current_time}\n"
 
-#First two lines of jokes.txt can be skipped as it contains attributions to the jokes sources.
-jokes = jokes[2:]
+# Open README.md in write mode (this will overwrite the existing content)
+with open("README.md", "w", encoding="utf-8") as readme_file:
+    readme_file.write(new_content)
 
-#Generate a random interger between 0 and len(jokes) and check if it is the starting line of a new joke.
-a = random.randint(0,len(jokes))
-while (a)%3 != 0:  #every new joke starts at line number 3n
-    a = random.randint(0,len(jokes))
-
-#Find Index of the line where the edit is to be made.   
-line = readme_lines.index("## Here's a Joke for you -\n")
-
-#Replace the old joke line with the new joke line.
-readme_lines[line+2] = "<pre>" + jokes[a]
-readme_lines[line+3] = jokes[a+1].strip("\n") + "</pre>\n" 
-
-readme_file.close()
-#Reopen README file in write mode and write the new content. 
-readme_file = open("README.md","w+",encoding = "utf-8")
-readme_file.writelines(readme_lines)
-
-#close both the files.
-readme_file.close()
-jokes_file.close()
+print("README.md updated successfully.")
