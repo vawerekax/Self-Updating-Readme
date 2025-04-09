@@ -27,8 +27,8 @@ jobs:
       
       - name: Commit and push changes
         run: |
-          git config --global user.email "ayushganna67@gmail.com"
-          git config --global user.name "ayushjain01"
+          git config --global user.email "xavier.op.1@hotmail.com"
+          git config --global user.name "vawerekax"
           git add -A
           git diff-index --quiet HEAD || git commit -m "Update README.md - Current time update: $(date '+%Y-%m-%d %H:%M:%S')"
           git push
