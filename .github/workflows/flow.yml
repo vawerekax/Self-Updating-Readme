@@ -1,33 +1,34 @@
-# Name of workflow
-name: flow
-#Runs At 00:00 on the first day of every month
+name: Update README Time
+
+# Schedule the workflow to run every minute.
 on:
   schedule:
-    - cron: "0 0 1 * *"   
-    #Use https://crontab.guru/ for cron schedule expression
+    - cron: "* * * * *"   
+  # Allow manual trigger if needed
+  workflow_dispatch:
 
-#steps to carry out 
 jobs:
-  build:
-    # Create a ubuntu virtual machine
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout repo content # checkout the repository content to github runner
-        uses: actions/checkout@v2 
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: setup python   #install latest version of python
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x
-      - name: execute py script   # run update.py to update the README file
+          python-version: '3.x'
+
+      - name: Run update script
         run: |
           python update.py
-      - name: commit and push    #IMPORTANT - replace with your email and username
-        run: |-
-          git diff
-          git config --global user.email "ayushganna67@gmail.com"   
+          echo "Updated README.md with current time."
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "ayushganna67@gmail.com"
           git config --global user.name "ayushjain01"
           git add -A
-          git commit -m "Update README.md - Add new joke" || exit 0
+          git diff-index --quiet HEAD || git commit -m "Update README.md - Current time update: $(date '+%Y-%m-%d %H:%M:%S')"
           git push
